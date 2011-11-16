@@ -8,7 +8,7 @@ Run a command against a specified set of rubies
 
 ## Usage ##
 
-rbenv only 1.9.2-p290,1.9.3-p0 bundle exec rake
+rbenv only -r 1.9.2-p290,1.9.3-p0 -c "bundle exec rake"
 
 ## Credits ##
 
