@@ -1,0 +1,45 @@
+#!/bin/bash
+# Argument = -t test -r server -p password -v
+
+usage()
+{
+cat << EOF
+
+Run a command against the specified rubies
+
+OPTIONS:
+   -h      Show this message
+   -r      Ruby versions e.g.  -r 1.8.7-p249,1.9.2-p290
+   -c      Command to run e.g. -c "bundle exec rake test"
+EOF
+}
+
+VERSIONS=
+COMMAND=
+while getopts “hr:c:” OPTION
+do
+     case $OPTION in
+         h)
+             usage
+             exit 1
+             ;;
+         r)
+             VERSIONS=$OPTARG
+             ;;
+         c)
+             COMMAND=$OPTARG
+             ;;
+         ?)
+             usage
+             exit
+             ;;
+     esac
+done
+
+rubies=$(echo $VERSIONS | tr "," "\n")
+
+for ruby in $rubies; do
+  echo -e "\033[1;34m[$ruby]:\033[0m \033[1;32m$COMMAND\033[0m";
+  echo -e "\033[1;34m******************************************************************\033[0m";
+  RBENV_VERSION=$ruby $COMMAND
+done
